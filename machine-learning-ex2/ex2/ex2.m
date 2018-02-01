@@ -23,8 +23,19 @@ clear ; close all; clc
 %  The first two columns contains the exam scores and the third column
 %  contains the label.
 
-data = load('ex2data1.txt');
+data = load('/Users/pavel/Sources/Machine-Learning/machine-learning-ex2/ex2/ex2data1.txt');
 X = data(:, [1, 2]); y = data(:, 3);
+
+hold on;
+% Find Indices of Positive and Negative Examples
+pos = find(y==1); neg = find(y == 0);
+% Plot Examples
+plot(X(pos, 1), X(pos, 2), 'k+','LineWidth', 2, ...
+     'MarkerSize', 7);
+plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'y', ...
+     'MarkerSize', 7);
+ 
+ hold off;
 
 %% ==================== Part 1: Plotting ====================
 %  We start the exercise by first plotting the data to understand the 
@@ -46,7 +57,7 @@ legend('Admitted', 'Not admitted')
 hold off;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% pause;
 
 
 %% ============ Part 2: Compute Cost and Gradient ============
@@ -83,7 +94,7 @@ fprintf(' %f \n', grad);
 fprintf('Expected gradients (approx):\n 0.043\n 2.566\n 2.647\n');
 
 fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% pause;
 
 
 %% ============= Part 3: Optimizing using fminunc  =============
@@ -120,7 +131,7 @@ legend('Admitted', 'Not admitted')
 hold off;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% pause;
 
 %% ============== Part 4: Predict and Accuracies ==============
 %  After learning the parameters, you'll like to use it to predict the outcomes
@@ -147,5 +158,6 @@ p = predict(theta, X);
 fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
 fprintf('Expected accuracy (approx): 89.0\n');
 fprintf('\n');
+
 
 
