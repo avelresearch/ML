@@ -61,14 +61,72 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
 % -------------------------------------------------------------
+
+%%% Implement Part A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A1 = [ones(1, m); X'];
+
+Z2 = Theta1 * A1;
+
+A2 = [ ones(1, m); sigmoid(Z2) ];
+
+Z3 = Theta2 * A2;
+
+A3 = sigmoid(Z3);
+
+J1 = 0;
+
+
+
+for i = 1:num_labels
+  for j = 1:m
+    if(i == y(j))
+      J1 += log( A3(i, j) );
+    else
+      J1 += log(1 - A3(i, j));
+    end
+  end
+end
+
+
+
+J1 = -J1 / m;
+
+J2 = sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2));
+
+J2 = ( lambda * J2) / 2 / m;
+
+J = J1 + J2;
+
+
+%%%%%%%%%%%%%%%%% Implement Part B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+I = eye(num_labels);
+
+D3 = A3;
+
+
+for i = 1:m
+  D3(:, i) = A3(:, i) - I(:, y(i));
+end
+
+DTT2 = (Theta2' * D3);
+
+DT2 = DTT2(2:end, :);
+
+D2 = DT2 .* sigmoidGradient(Z2);
+
+Theta1_grad = D2 * A1' / m;
+
+Theta2_grad = D3 * A2' / m;
+
+
+r1 = [zeros(size(Theta1(:,1))), Theta1(:, 2:end)] * lambda / m;
+r2 = [zeros(size(Theta2(:,1))), Theta2(:, 2:end)] * lambda / m;
+
+Theta1_grad += r1;
+Theta2_grad += r2;
 
 % =========================================================================
 
