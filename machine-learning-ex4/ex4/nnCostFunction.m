@@ -82,9 +82,9 @@ J1 = 0;
 for i = 1:num_labels
   for j = 1:m
     if(i == y(j))
-      J1 += log( A3(i, j) );
+      J1 = J1 + log( A3(i, j) );
     else
-      J1 += log(1 - A3(i, j));
+      J1 = J1 + log(1 - A3(i, j));
     end
   end
 end
@@ -115,7 +115,9 @@ DTT2 = (Theta2' * D3);
 
 DT2 = DTT2(2:end, :);
 
-D2 = DT2 .* sigmoidGradient(Z2);
+t = sigmoidGradient(Z2);
+
+D2 = DT2.*t;
 
 Theta1_grad = D2 * A1' / m;
 
@@ -125,8 +127,8 @@ Theta2_grad = D3 * A2' / m;
 r1 = [zeros(size(Theta1(:,1))), Theta1(:, 2:end)] * lambda / m;
 r2 = [zeros(size(Theta2(:,1))), Theta2(:, 2:end)] * lambda / m;
 
-Theta1_grad += r1;
-Theta2_grad += r2;
+Theta1_grad = Theta1_grad + r1;
+Theta2_grad = Theta2_grad + r2;
 
 % =========================================================================
 
