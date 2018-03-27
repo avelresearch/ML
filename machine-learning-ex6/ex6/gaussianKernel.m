@@ -4,7 +4,8 @@ function sim = gaussianKernel(x1, x2, sigma)
 %   and returns the value in sim
 
 % Ensure that x1 and x2 are column vectors
-x1 = x1(:); x2 = x2(:);
+x1 = x1(:); 
+x2 = x2(:);
 
 % You need to return the following variables correctly.
 sim = 0;
@@ -15,7 +16,9 @@ sim = 0;
 %               sigma
 %
 %
+delta = x1 - x2;
 
+sim = exp( (-delta' * delta) / 2 / sigma / sigma);
 
 
 
